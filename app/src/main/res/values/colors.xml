@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#c166d6</color>
+    <color name="colorPrimaryFaded">#A4AA77B6</color>
+    <color name="colorPrimaryDark">#894698</color>
+    <color name="colorPrimaryDarkFaded">#6C4A75</color>
+    <color name="colorAccent">#CC923A</color>
+    <color name="colorError">#A6CA4747</color>
+    <color name="colorSuccess">#A670AF70</color>
+    <color name="colorLightGrey">#33787878</color>
+    <color name="colorHighlightGrey">#939393</color>
+    <color name="colorTransparent">#00FFFFFF</color>
+</resources>

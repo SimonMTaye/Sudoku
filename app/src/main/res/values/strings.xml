@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sudoku</string>
+    <string name="sudoku">SUDOKU</string>
+    <string name="play">Play</string>
+    <string name="note_button">Note button</string>
+    <string name="delete_button">Delete button</string>
+    <string name="check_button">Check button</string>
+</resources>

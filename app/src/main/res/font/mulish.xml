@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.app.com/apk/res-auto">
+    <font app:font="@font/mulishregular" app:fontStyle="normal" />
+    <font app:font="@font/mulishitalic" app:fontStyle="italic" />
+</font-family>

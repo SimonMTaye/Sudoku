@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/button_grid"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:columnCount="4"
+    android:rowCount="3">
+
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:text="1" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:text="2" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:text="3" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:text="4" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:text="5" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="1"
+        android:layout_column="2"
+        android:text="6" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:text="7" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="2"
+        android:layout_column="1"
+        android:text="8" />
+
+    <Button
+        style="@style/InputButton"
+        android:tag="numButton"
+        android:layout_row="2"
+        android:layout_column="2"
+        android:text="9" />
+
+    <ImageButton
+        android:id="@+id/note_button"
+        style="?android:borderlessButtonStyle"
+        android:layout_row="0"
+        android:layout_column="3"
+        android:src="@drawable/ic_create_24px"
+        android:contentDescription="@string/note_button"
+        android:tint="@color/colorAccent" />
+
+    <ImageButton
+        android:id="@+id/clear_button"
+        style="?android:borderlessButtonStyle"
+        android:layout_row="1"
+        android:layout_column="3"
+        android:src="@drawable/ic_backspace_24px"
+        android:contentDescription="@string/delete_button"
+        android:tint="@color/colorError" />
+
+    <ImageButton
+        android:id="@+id/check_button"
+        style="?android:borderlessButtonStyle"
+        android:layout_row="2"
+        android:layout_column="3"
+        android:src="@drawable/ic_done_24px"
+        android:contentDescription="@string/check_button"
+        android:tint="@color/colorSuccess" />
+
+</GridLayout>
