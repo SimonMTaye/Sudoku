@@ -92,7 +92,7 @@ class SudokuGame (instream: InputStream) {
     }
     fun addNote(note: Int, x: Int, y: Int){
         if (mPuzzle[y][x] == null) {
-            if (userNotes[y][x].count() < 6) {
+            if (userNotes[y][x].count() < 6 && !userNotes[y][x].contains(note)) {
                 userNotes[y][x].add(note)
             }
         }
