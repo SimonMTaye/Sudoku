@@ -1,13 +1,11 @@
 package com.potato.sudoku
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 
 class BoardFragment : Fragment() {
 
@@ -47,8 +45,7 @@ class BoardFragment : Fragment() {
     }
 
     private fun select(x: Int, y: Int){
-        Log.d("BOARD CLICKED", "($x , $y)")
-        if (model.selected.value?.first ?: -1 != x && model.selected.value?.second ?: -1 != y) {
+        if (model.selected.value?.first ?: -1000 != x || model.selected.value?.second ?: -1000 != y) {
             model.selected.value = Pair(x, y)
         } else {
             model.selected.value = null
