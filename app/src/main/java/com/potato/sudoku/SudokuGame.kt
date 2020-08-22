@@ -5,29 +5,54 @@ import java.io.InputStream
 
 typealias Board = Array<Array<Int?>>
 
-class SudokuGame (instream: InputStream) {
+class SudokuGame {
 
+    companion object BoardFactory {
+        fun boardToString(board: Board): String{
+            var boardstring = ""
+            for (i in 0 until 81){
+                val cell = board[i / 9][i % 9]
+                if (cell == null){
+                    boardstring += " "
+                } else {
+                    boardstring += cell.toString()
+                }
+            }
+            return boardstring
+        }
+        fun boardFromString(string: String): Board {
+            return Array(9) { y -> Array(9) { x ->  if (string[(y * 9) + x].toString() != " ") string[(y * 9) + x].toString().toInt() else null} }
+        }
+        fun boardInCols(board: Board): Board {
+            return Array(9) { y -> Array(9) { x -> board[x][y] } }
+        }
+        fun copyBoard(board: Board): Board {
+            return Array(9) { y -> Array(9) { x -> board[y][x] } }
+        }
+    }
 
-    private val puzzleString = getRandomPuzzle(instream.bufferedReader())
-    private val translator = boardTranslator()
-    val mSolution = solution(puzzleString)
-    val mPuzzle = puzzle(mSolution)
-    val userEntries: Board = empty()
+    var mSolution: Board
+    var mPuzzle: Board
+    var userEntries: Board
     val userNotes: Array<Array<MutableList<Int>>> = Array(9) { Array(9) { mutableListOf<Int>() } }
 
-
-    private fun getRandomPuzzle(bufferedReader: BufferedReader): String{
-        val r = (1..100).random()
-        for (i in (1..100)){
-            if (i == r){
-                val s = bufferedReader.readLine()
-                bufferedReader.close()
-                return s
-            }
-            bufferedReader.readLine()
-        }
-        throw IllegalAccessError("File doesn't contain enough puzzles")
+    constructor(puzzleString: String){
+        this.mSolution = solution(puzzleString)
+        this.mPuzzle = puzzle(mSolution, puzzleString)
+        this.userEntries = empty()
+        this.shufflePuzzle()
     }
+
+    constructor(solutionString: String, puzzleString: String, userNotesString: String){
+        this.mSolution = boardFromString(solutionString)
+        this.mPuzzle = boardFromString(puzzleString)
+        this.userEntries = boardFromString(userNotesString)
+    }
+
+
+    private val translator = boardTranslator()
+
+
     // Neccessary becasue initilazing as completely null makes the compiler complain
     private fun empty(): Board{
         val c = copyBoard(mPuzzle)
@@ -38,6 +63,7 @@ class SudokuGame (instream: InputStream) {
         }
         return c
     }
+
     private fun boardTranslator(): Map<Char, Int> {
         val nums = MutableList(9) { it + 1 }
         nums.shuffle()
@@ -64,11 +90,8 @@ class SudokuGame (instream: InputStream) {
         }
     }
 
-    private fun boardInCols(board: Board): Board {
-        return Array(9) { y -> Array(9) { x -> board[x][y] } }
-    }
 
-    private fun puzzle(solution: Board): Board {
+    private fun puzzle(solution: Board, puzzleString: String): Board {
         val copy = Array(9) { y -> Array(9) { x -> solution[y][x] } }
         for (i in 0 until 81) {
             if (puzzleString[81 + i] == '_') {
@@ -76,10 +99,6 @@ class SudokuGame (instream: InputStream) {
             }
         }
         return copy
-    }
-
-    private fun copyBoard(board: Board): Board {
-        return Array(9) { y -> Array(9) { x -> board[y][x] } }
     }
 
     fun shufflePuzzle() {
@@ -90,6 +109,7 @@ class SudokuGame (instream: InputStream) {
             shuffleBand(i, boardCol, puzzleInCol)
         }
     }
+
     fun addNote(note: Int, x: Int, y: Int){
         if (mPuzzle[y][x] == null) {
             if (userNotes[y][x].count() < 6 && !userNotes[y][x].contains(note)) {
@@ -97,14 +117,17 @@ class SudokuGame (instream: InputStream) {
             }
         }
     }
+
     fun addEntry(note: Int, x: Int, y: Int){
         if (mPuzzle[y][x] == null) {
             userEntries[y][x] = note
         }
     }
+
     fun clearEntry(x: Int, y: Int){
         userEntries[y][x] = null
     }
+
     @ExperimentalStdlibApi
     fun clearNote(x:Int, y: Int, count: Int){
         val c = userNotes[y][x].count()

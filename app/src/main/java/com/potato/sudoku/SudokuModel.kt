@@ -3,16 +3,22 @@ package com.potato.sudoku
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import java.io.BufferedReader
+import java.io.File
+import java.io.IOException
 import java.io.InputStream
 
-class SudokuModel(val app: Application) : AndroidViewModel(app){
+class SudokuModel(private val app: Application) : AndroidViewModel(app){
+
     enum class Diffculties (val id: Int) {
         EASY(R.raw.easy),
         MEDIUM(R.raw.medium),
         HARD(R.raw.hard)
     }
 
-    val tag = "BOARD MODEL"
+    private val cache = "CACHE"
+    private val cacheFile = File(app.applicationContext.cacheDir, cache)
+
     val sudokuGame = MutableLiveData<SudokuGame>()
     val selected = MutableLiveData<Pair<Int, Int>>()
     var mistakes = MutableLiveData<MutableSet<Pair<Int, Int>>>()
@@ -21,9 +27,54 @@ class SudokuModel(val app: Application) : AndroidViewModel(app){
         return app.applicationContext.resources.openRawResource(difficulty.id)
     }
 
+    private fun getRandomPuzzle(bufferedReader: BufferedReader): String{
+        val r = (1..100).random()
+        for (i in (1..100)){
+            if (i == r){
+                val s = bufferedReader.readLine()
+                bufferedReader.close()
+                return s
+            }
+            bufferedReader.readLine()
+        }
+        throw IllegalAccessError("File doesn't contain enough puzzles")
+    }
+
+
+    fun saveGame(){
+        if (sudokuGame.value != null){
+            if (!cacheFile.exists()) {
+                File.createTempFile(cache, null, app.applicationContext.cacheDir)
+            }
+            val writer = cacheFile.bufferedWriter()
+            writer.write(
+                SudokuGame.boardToString(sudokuGame.value!!.mSolution) + "\n" +
+                SudokuGame.boardToString(sudokuGame.value!!.mPuzzle) + "\n" +
+                SudokuGame.boardToString(sudokuGame.value!!.userEntries)
+            )
+            writer.close()
+        }
+    }
+
+    fun initGame(){
+        if (cacheFile.exists()){
+            val reader = cacheFile.bufferedReader()
+            try {
+                val solBoardStr = reader.readLine()
+                val puzBoardStr = reader.readLine()
+                val usrBoardStr = reader.readLine()
+                sudokuGame.value = SudokuGame(solBoardStr, puzBoardStr, usrBoardStr)
+                reader.close()
+            } catch (e: IOException){
+                newGame(Diffculties.EASY)
+            }
+        } else {
+            newGame(Diffculties.EASY)
+        }
+    }
+
     fun newGame(difficulty: Diffculties){
-        sudokuGame.value = SudokuGame(getInputStream(difficulty))
-        sudokuGame.value!!.shufflePuzzle()
+        sudokuGame.value = SudokuGame(getRandomPuzzle(getInputStream(difficulty).bufferedReader()))
     }
 
     fun addNote(note: Int){
@@ -73,12 +124,9 @@ class SudokuModel(val app: Application) : AndroidViewModel(app){
             }
         }
     }
-    private fun clearMistakes(){
-        if (mistakes.value != null){
+    private fun clearMistakes() {
+        if (mistakes.value != null) {
             mistakes.value = null
         }
     }
-
-
-
 }
