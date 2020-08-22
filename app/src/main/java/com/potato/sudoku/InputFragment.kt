@@ -48,14 +48,6 @@ class InputFragment : Fragment(){
         return gridView
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (model.sudokuGame.value == null) {
-            model.newGame(SudokuModel.Diffculties.EASY)
-        }
-
-    }
-
     @ExperimentalStdlibApi
     private fun numClicked(v: View){
         val button = v as Button
