@@ -3,11 +3,9 @@ package com.potato.sudoku
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
-import kotlinx.coroutines.selects.select
 import kotlin.math.min
 
 class SudokuGameView (context: Context, attribSet: AttributeSet): View(context, attribSet){
@@ -79,7 +77,6 @@ class SudokuGameView (context: Context, attribSet: AttributeSet): View(context, 
 
     private fun drawHighlight(canvas: Canvas) {
         if (selected != null) {
-            Log.d("SELECTED CELL", "(${selected!!.first} , ${selected!!.second} )")
             highlightCell(selected!!.first, selected!!.second, canvas)
             for (i in (0..8)) {
                 highlightCell(selected!!.first, i, canvas, fadedHighlightPaint)
@@ -125,9 +122,7 @@ class SudokuGameView (context: Context, attribSet: AttributeSet): View(context, 
                 if (entryBoard[i][j] != null){
                     if (mistakes != null && mistakes!!.contains(Pair(j, i))){
                         drawNum(entryBoard[i][j]!!, j + 1,i + 1,canvas, redTextPaint)
-                        Log.d("BOARD VIEW", "Mistake found")
                     } else {
-                        Log.d("BOARD VIEW", "($j , $i) not a mistake")
                         drawNum(entryBoard[i][j]!!, j + 1, i + 1, canvas)
                     }
                 }
@@ -151,7 +146,6 @@ class SudokuGameView (context: Context, attribSet: AttributeSet): View(context, 
     private val textBounds = Rect()
     private fun drawNum(num: Int, x: Int, y: Int, canvas: Canvas, paint: Paint = textPaint){
         if (x > size || y > size || y < 1 || x < 1){
-            Log.e("Arguments", "X value is: $x Y value is: $y")
             throw IllegalArgumentException("X and Y positions must be between 1 and size of board")
         }
         //Get the bounds (size of rectangle) that will be occupied by the text
