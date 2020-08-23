@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Sudoku</string>
     <string name="sudoku">SUDOKU</string>
-    <string name="play">Play</string>
     <string name="note_button">Note button</string>
     <string name="delete_button">Delete button</string>
     <string name="check_button">Check button</string>
+    <string name="easy">EASY</string>
+    <string name="medium">MEDIUM</string>
+    <string name="hard">HARD</string>
+    <string name="difficulty">DIFFICULTY</string>
+    <string name="play">Play</string>
 </resources>

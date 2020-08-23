@@ -39,6 +39,22 @@ class SudokuModel(private val app: Application) : AndroidViewModel(app){
         }
         throw IllegalAccessError("File doesn't contain enough puzzles")
     }
+    fun cachedGame(): Boolean{
+        if (cacheFile.exists()) {
+            val reader = cacheFile.bufferedReader()
+            try {
+                reader.readLine()
+                reader.readLine()
+                reader.readLine()
+                reader.close()
+                return true
+            } catch (e: IOException) {
+                cacheFile.delete()
+                return false
+            }
+        }
+        return false
+    }
 
 
     fun saveGame(){
@@ -67,6 +83,7 @@ class SudokuModel(private val app: Application) : AndroidViewModel(app){
                 reader.close()
             } catch (e: IOException){
                 newGame(Diffculties.EASY)
+                cacheFile.delete()
             }
         } else {
             newGame(Diffculties.EASY)
