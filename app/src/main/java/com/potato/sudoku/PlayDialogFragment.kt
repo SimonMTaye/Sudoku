@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 
-class PlayDialogFragment: DialogFragment() {
+class PlayDialogFragment(private val msg: String): DialogFragment() {
 
     private lateinit var radioGroup: RadioGroup
     private var difficulty: SudokuModel.Diffculties = SudokuModel.Diffculties.EASY
@@ -23,6 +24,7 @@ class PlayDialogFragment: DialogFragment() {
         val dialogView = inflater.inflate(R.layout.dialog_fragment, container, false)
         dialogView.findViewById<Button>(R.id.play_button).setOnClickListener{onPlay()}
         radioGroup = dialogView.findViewById(R.id.difficulty_radio_group)
+        dialogView.findViewById<TextView>(R.id.dialog_header).text = msg
         return dialogView
     }
 
@@ -33,6 +35,5 @@ class PlayDialogFragment: DialogFragment() {
             R.id.hard_radio_button -> difficulty = SudokuModel.Diffculties.HARD
         }
         playClickListner?.invoke(difficulty)
-        this.dismiss()
     }
 }

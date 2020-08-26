@@ -2,23 +2,23 @@ package com.potato.sudoku
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
 import androidx.activity.viewModels
 
 class MainActivity : AppCompatActivity() {
 
     private val model: SudokuModel by viewModels()
-    private lateinit var playDialog : PlayDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        playDialog = PlayDialogFragment()
+        findViewById<Button>(R.id.restart_button).setOnClickListener{playGameDialog("NEW GAME")}
+        createGameFragments()
+        model.winCallback = {playGameDialog("YOU WIN! NEW GAME")}
         if (model.cachedGame()){
             model.initGame()
-            createGameFragments()
         } else {
-            playGameDialog()
+            playGameDialog("NEW GAME")
         }
     }
 
@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
             .commitNow()
     }
 
-    private fun playGameDialog(){
-        Log.d("MAIN ACTIVITY", "SHOWING NEW GAME DIALOG")
+    private fun playGameDialog(msg : String){
+        val playDialog = PlayDialogFragment(msg)
         playDialog.playClickListner = {
             model.newGame(it)
-            createGameFragments()
+            playDialog.dismiss()
         }
         playDialog.show(supportFragmentManager, "DIFFICULTY")
     }

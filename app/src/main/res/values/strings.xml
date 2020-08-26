@@ -9,4 +9,5 @@
     <string name="hard">HARD</string>
     <string name="difficulty">DIFFICULTY</string>
     <string name="play">Play</string>
+    <string name="play_again">YOU WIN. PLAY AGAIN?</string>
 </resources>

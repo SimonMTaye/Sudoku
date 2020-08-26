@@ -1,6 +1,7 @@
 package com.potato.sudoku
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import java.io.BufferedReader
@@ -22,6 +23,8 @@ class SudokuModel(private val app: Application) : AndroidViewModel(app){
     val sudokuGame = MutableLiveData<SudokuGame>()
     val selected = MutableLiveData<Pair<Int, Int>>()
     var mistakes = MutableLiveData<MutableSet<Pair<Int, Int>>>()
+
+    var winCallback: (() -> Unit)? = null
 
     private fun getInputStream(difficulty: Diffculties): InputStream {
         return app.applicationContext.resources.openRawResource(difficulty.id)
@@ -125,9 +128,16 @@ class SudokuModel(private val app: Application) : AndroidViewModel(app){
             sudokuGame.value = sudokuGame.value
         }
     }
-    fun solved(): Boolean {
-        getMistakes()
-        return sudokuGame.value?.solved() ?: false
+    fun solved(){
+        if (!sudokuGame.value!!.solved()){
+            getMistakes()
+            Toast.makeText(app.applicationContext, "Check your solution", Toast.LENGTH_SHORT).show()
+        } else {
+            if (cacheFile.exists()){
+                cacheFile.delete()
+            }
+            winCallback?.invoke()
+        }
     }
     private fun getMistakes(){
         if (mistakes.value == null){

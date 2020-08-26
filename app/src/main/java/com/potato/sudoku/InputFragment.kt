@@ -78,11 +78,7 @@ class InputFragment : Fragment(){
         }
     }
     private fun solveClicked(){
-        if(model.solved()){
-            Toast.makeText(requireContext(), "You win!", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(requireContext(), "Check your solution again", Toast.LENGTH_SHORT).show()
-        }
+        model.solved()
     }
 
 }
