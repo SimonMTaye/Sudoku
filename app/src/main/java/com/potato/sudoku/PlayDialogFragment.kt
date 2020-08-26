@@ -8,8 +8,9 @@ import android.widget.Button
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class PlayDialogFragment(private val msg: String): DialogFragment() {
+class PlayDialogFragment(private val msg: String): BottomSheetDialogFragment() {
 
     private lateinit var radioGroup: RadioGroup
     private var difficulty: SudokuModel.Diffculties = SudokuModel.Diffculties.EASY
