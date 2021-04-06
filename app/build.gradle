@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.potato.sudoku"
+        applicationId "com.staye.sudoku"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
