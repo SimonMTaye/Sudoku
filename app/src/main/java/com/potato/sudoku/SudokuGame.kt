@@ -1,9 +1,7 @@
 package com.potato.sudoku
 
-import java.io.BufferedReader
-import java.io.InputStream
-
 typealias Board = Array<Array<Int?>>
+typealias Notes = Array<Array<MutableList<Int>>>
 
 class SudokuGame {
 
@@ -26,6 +24,33 @@ class SudokuGame {
         fun boardInCols(board: Board): Board {
             return Array(9) { y -> Array(9) { x -> board[x][y] } }
         }
+        fun notesToString(notes: Notes): String{
+            var noteString = ""
+            for (i in 0 until 81){
+                val cellList = notes[i / 9][i % 9]
+                for (note in cellList){
+                    noteString += note.toString()
+                }
+                noteString += ','
+            }
+            return noteString
+        }
+
+        fun notesFromString(string: String): Notes{
+            val cellNotes = string.split(",")
+            return Array(9) { y ->
+                Array(9) { x ->
+                    val l = mutableListOf<Int>()
+                    for (note in cellNotes[(y * 9) + x]){
+                        if (note.isDigit()){
+                            l.add(note.toString().toInt())
+                        }
+                    }
+                    l
+                }
+            }
+        }
+
         fun copyBoard(board: Board): Board {
             return Array(9) { y -> Array(9) { x -> board[y][x] } }
         }
@@ -34,7 +59,7 @@ class SudokuGame {
     var mSolution: Board
     var mPuzzle: Board
     var userEntries: Board
-    val userNotes: Array<Array<MutableList<Int>>> = Array(9) { Array(9) { mutableListOf<Int>() } }
+    var userNotes: Notes = Array(9) { Array(9) { mutableListOf<Int>() } }
 
     constructor(puzzleString: String){
         this.mSolution = solution(puzzleString)
@@ -43,10 +68,17 @@ class SudokuGame {
         this.shufflePuzzle()
     }
 
-    constructor(solutionString: String, puzzleString: String, userNotesString: String){
+    constructor(solutionString: String, puzzleString: String, userEntries: String){
         this.mSolution = boardFromString(solutionString)
         this.mPuzzle = boardFromString(puzzleString)
-        this.userEntries = boardFromString(userNotesString)
+        this.userEntries = boardFromString(userEntries)
+    }
+
+    constructor(solutionString: String, puzzleString: String, userEntriesString: String, userNotesString: String){
+        this.mSolution = boardFromString(solutionString)
+        this.mPuzzle = boardFromString(puzzleString)
+        this.userEntries = boardFromString(userEntriesString)
+        this.userNotes = notesFromString(userNotesString)
     }
 
 
@@ -112,10 +144,15 @@ class SudokuGame {
 
     fun addNote(note: Int, x: Int, y: Int){
         if (mPuzzle[y][x] == null) {
-            if (userNotes[y][x].count() < 6 && !userNotes[y][x].contains(note)) {
-                userNotes[y][x].add(note)
+            if (!userNotes[y][x].contains(note)) {
+                if (userNotes[y][x].count() < 6) {
+                    userNotes[y][x].add(note)
+                }
+            } else {
+                userNotes[y][x].remove(note)
             }
         }
+        userNotes[y][x].sort()
     }
 
     fun addEntry(note: Int, x: Int, y: Int){
@@ -137,7 +174,6 @@ class SudokuGame {
             }
             userNotes[y][x].removeLast()
         }
-
     }
 
     fun solved(): Boolean {

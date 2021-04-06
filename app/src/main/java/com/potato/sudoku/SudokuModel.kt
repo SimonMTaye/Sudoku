@@ -49,6 +49,7 @@ class SudokuModel(private val app: Application) : AndroidViewModel(app){
                 reader.readLine()
                 reader.readLine()
                 reader.readLine()
+                reader.readLine()
                 reader.close()
                 return true
             } catch (e: IOException) {
@@ -69,7 +70,8 @@ class SudokuModel(private val app: Application) : AndroidViewModel(app){
             writer.write(
                 SudokuGame.boardToString(sudokuGame.value!!.mSolution) + "\n" +
                 SudokuGame.boardToString(sudokuGame.value!!.mPuzzle) + "\n" +
-                SudokuGame.boardToString(sudokuGame.value!!.userEntries)
+                SudokuGame.boardToString(sudokuGame.value!!.userEntries) + "\n" +
+                SudokuGame.notesToString(sudokuGame.value!!.userNotes)
             )
             writer.close()
         }
@@ -82,7 +84,8 @@ class SudokuModel(private val app: Application) : AndroidViewModel(app){
                 val solBoardStr = reader.readLine()
                 val puzBoardStr = reader.readLine()
                 val usrBoardStr = reader.readLine()
-                sudokuGame.value = SudokuGame(solBoardStr, puzBoardStr, usrBoardStr)
+                val usrNotes = reader.readLine()
+                sudokuGame.value = SudokuGame(solBoardStr, puzBoardStr, usrBoardStr, usrNotes)
                 reader.close()
             } catch (e: IOException){
                 newGame(Diffculties.EASY)
