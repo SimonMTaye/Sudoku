@@ -26,21 +26,30 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/colorPrimary"
             android:checked="true"
-            android:text="@string/easy" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/easy"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/medium_radio_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="@color/colorPrimary"
-            android:text="@string/medium" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/medium"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/hard_radio_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="@color/colorPrimary"
-            android:text="@string/hard" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/hard"
+            android:textSize="18sp" />
     </RadioGroup>
 
     <TextView
