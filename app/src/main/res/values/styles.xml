@@ -3,6 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:statusBarColor" type="color">?android:colorBackground</item>
         <item name="android:fontFamily">@font/mulish</item>
+        <item name="android:navigationBarColor">?android:colorBackground</item>
     </style>
 
     <style name="MenuButton" parent="Widget.AppCompat.ActionButton">
